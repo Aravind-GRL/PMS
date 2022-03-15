@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Registration</title>
+    <!-- <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="col-md-12" style="background-color: lightblue;height:65px;text-align: center;">
+        <h1><i class="fa fa-shopping-cart"></i>&nbsp;<b>Purchase Management System</b></h1>
+    </div>
+    <br>
+    <br>
+    <h3 style="text-align:center"><b>Registration</b></h3><br>
+    <div class="col-md-10 col-md-offset-2 text-center">
+        <form action="" method="POST" id="reg_form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Name:</b></label>
+                <input type="text" class="col-md-4" name="name" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Email:</b></label>
+                <input type="email" class="col-md-4" name="email" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Team/Dept:</b></label>
+                <input type="text" class="col-md-4" name="team" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>User Type</b></label>
+                <select class="col-md-4" name="utype" required>
+                    <option>SELECT</option>
+                    {% for ut in utype %}
+                    <option value="{{ ut.user_type_id }}">{{ ut.user_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>User Name:</b></label>
+                <input type="text" class="col-md-4" name="uname" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Password:</b></label>
+                <input type="password" id="pwd" class="col-md-4" name="pwd" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Confirm Password</b></label>
+                <input type="password" id="cpwd" class="col-md-4" name="cpwd" required>
+            </div>
+           
+            <div class="col-md-6">
+                <input style="margin-right:-900px" type="submit" id="reg_btn" name="submit" value="Register"
+                    class="col-md-3 btn btn-primary">
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+
+<script type="text/javascript">
+
+    $("#reg_btn").click(function(){
+        var pwd = $("#pwd").val();
+        var cpwd = $("#cpwd").val();
+        if(pwd == cpwd)
+        {
+            return true;
+        }
+        else
+        {
+            alert('Password not match');
+            return false;
+        }
+    });
+</script>   
+
+</body>
+</html>

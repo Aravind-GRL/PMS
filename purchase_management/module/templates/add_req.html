@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Add Purchase Request</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="col-md-12" style="background-color: lightblue;height:65px;text-align: center;">
+        <h1><i class="fa fa-shopping-cart"></i>&nbsp;<b>Purchase Management System</b></h1>
+    </div>
+    <br>
+    <br>
+    <h3 style="text-align:center"><b>Add Request</b></h3><br>
+    <div class="col-md-10 col-md-offset-2 text-center">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Employee Name:</b></label>
+                <input type="text" class="col-md-4" name="name" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Team/Dept:</b></label>
+                <input type="text" class="col-md-4" name="team" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Required Product:</b></label>
+                <input type="text" class="col-md-4" name="req_pro" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Purpose:</b></label>
+                <input type="text" class="col-md-4" name="purpose" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Product Link:</b></label>
+                <input type="text" class="col-md-4" name="link" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Product Image:</b></label>
+                <input type="file" class="col-md-4" name="pro_file" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Price:</b></label>
+                <input type="text" class="col-md-4" name="price" required>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label text-right"><b>Project Manager:</b></label>
+                <select class="col-md-4" name="mgr" required>
+                    <option>SELECT</option>
+                    {% for mgr in manager %}
+                    <option value="{{ mgr.name }}">{{ mgr.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <input style="margin-right:-900px" type="submit" name="submit" value="Add"
+                    class="col-md-3 btn btn-primary">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

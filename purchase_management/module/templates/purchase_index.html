@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    table,
+    th,
+    td {
+        padding: 10px;
+        border: 1px solid;
+        border-collapse: collapse;
+    }
+
+    #logout {
+        margin-top: -55px;
+        margin-right: 20px;
+
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Purchase Requests</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <div class="col-md-12" style="background-color: lightblue;height:65px;text-align: center;">
+        <h1><i class="fa fa-shopping-cart"></i>&nbsp;<b>Purchase Management System</b></h1>
+        <div class="text-right" id="logout">
+            <a href="/logout" style="color:rgb(56, 55, 55)" data-toggle="tooltip" title="Logout"><i
+                    class="fa fa-power-off" style="font-size:35px"></i></a>
+        </div>
+    </div>
+    <br><br>
+    {% if messages %}
+    {% for message in messages %}
+    <br><br>
+    <div class="alert alert-info alert-dismissible text-center" role="alert" id="flash">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="remove_flash();"><span
+                aria-hidden="true">&times;</span></button>
+                
+        <b>{{ message }}</b>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <br>
+    <h3 style="text-align:center"><b>Purchase Requests</b></h3>
+    <div class="text-right" style="margin-right:30px;margin-top:-35px">
+        <a href="/registration"><button type="button" class="btn btn-success">Add Users</button></a>
+        <a href="/user_list"><button type="button" class="btn btn-success">List Users</button></a>    
+    </div>
+
+    <div class="form-group" style="padding:12px;overflow-x: scroll;">
+        <table class="table table-striped table-bordered" style="width:110%;padding:10px;" id="pur_req">
+            <thead class="thead-dark" style="background-color:#343a40;color:white">
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Team</th>
+                    <th>Req Product</th>
+                    <th>Purpose</th>
+                    <th>Product Link</th>
+                    <th>Price</th>
+                    <th>Project Manager</th>
+                    <th>Status</th>
+                    <th>Requested Date</th>
+                    <th>Approved Date</th>
+                    <th>Purchased Date</th>
+                    <th>Delivery Date</th>
+                    <th>Product Image</th>
+                    <th>Invoice</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in pur_req %}
+                <tr>
+                    <td>{{ req.emp_name }}</td>
+                    <td>{{ req.team }}</td>
+                    <td>{{ req.req_product }}</td>
+                    <td>{{ req.purpose }}</td>
+                    <td><a href="{{ req.product_link }}" target="_blank">{{ req.product_link|slice:20 }}</a></td>
+                    <td>{{ req.price }}</td>
+                    <td>{{ req.project_manager }}</td>
+                    {% if 'Approved' in req.status %}
+                    <td><span class="label label-primary">{{ req.status }}</span></td>
+                    {% elif 'Rejected' in req.status %}
+                    <td><span class="label label-danger">{{ req.status }}</span></td>
+                    {% elif 'Order' in req.status %}
+                    <td><span class="label label-info">{{ req.status }}</span></td>
+                    {% elif 'Closed' in req.status %}
+                    <td><span class="label label-success">{{ req.status }}</span></td>
+                    {% else %}
+                    <td><span class="label label-default">{{ req.status }}</span></td>
+                    {% endif %}
+                    <td>{{ req.request_date|date:"Y-m-d" }}</td>
+                    {% if req.approved_date == None %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{ req.approved_date|date:"Y-m-d" }}</td>
+                    {% endif %}
+                    {% if req.purchase_date == None %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{ req.purchase_date|date:"Y-m-d" }}</td>
+                    {% endif %}
+                    {% if req.delivery_date == None %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{ req.delivery_date|date:"Y-m-d" }}</td>
+                    {% endif %}
+                    <td>
+                        <a href="javascript:void(0);" data-toggle="tooltip" id="{{ req.name }}"
+                            onclick="preview('{{ req.image }}')" title="Click to Preview">
+                            <img src="../media/{{ req.image }}" alt="img" width="65px" height="40px"></a>
+
+                    </td>
+                    {% if req.invoice == None %}
+                    <td>-</td>
+                    {% else %}
+                    <td width="150px">
+                        <a href="../media/{{ req.invoice }}" data-toggle="tooltip" id="{{ req.invoice }}"
+                            target="_blank" title="Click to Preview" style="font-size: 12px;">{{ req.invoice|slice:15 }}</a>
+                    </td>
+                    {% endif %}
+                    <td>
+                        {% if 'Closed' in req.status %}
+                        <form method="post" action="/upload_invoice" enctype="multipart/form-data"
+                            id="upload_form_{{ req.req_id }}">
+                            {% csrf_token %}
+                            {% if req.invoice == None %}
+                            <button type="button"
+                                style="background-color: rgb(14, 109, 85);border-radius: 1px;height:30px"
+                                class="btn btn-primary" onclick="upload_inv('{{ req.req_id }}')"><i
+                                    class="fa fa-cloud-upload"></i> Upload Invoice</button>
+                            {% else %}
+                            <button type="button"
+                                style="background-color: rgb(14, 109, 85);border-radius: 1px;height:30px"
+                                class="btn btn-primary" data-toggle="tooltip" title="Invoice uploaded"
+                                onclick="upload_inv()" disabled><i class="fa fa-cloud-upload"></i> Upload
+                                Invoice</button>
+                            {% endif %}
+                            <span id="inv_name_{{ req.req_id }}"></span>
+                            <input type="file" name="invoice" id="inv_{{ req.req_id }}"
+                                onchange="form_submit('{{ req.req_id }}')" style="display:none">
+                            <input type="hidden" name="req_id" value="{{ req.req_id }}">
+                        </form>
+
+                        {% elif 'Order' in req.status and req.delivery_date == None %}
+                        <a href="javascript:void(0);" data-toggle="tooltip" id="{{ req.name }}"
+                            onclick="del_update('{{ req.req_id }}')">
+                            <button type="button">Update delivery date</button></a>
+
+                        {% else %}
+                        <select name="pr_action" class="pr_action" style="width:150px">
+                            <option value=""></option>
+                            {% if req.delivery_date %}
+                            <option value="3,{{ req.req_id }}">Closed</option>
+                            {% else %}
+                            <option value="1,{{ req.req_id }}">Approve and place order</option>
+                            {% endif %}
+                            <option value="2,{{ req.req_id }}">Reject</option>
+                        </select>
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css" />
+        <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pur_req').dataTable({
+                dom: 'lBfrtip',
+                buttons: [
+               'print','excel'
+                
+        ]
+            });
+        });
+        $(".pr_action").change(function () {
+            var ele_value = this.value;
+            var data = ele_value.split(',');
+            var req_status = data[0];
+            var uid = data[1];
+            $.ajax({
+                url: "/change_status",
+                type: "GET",
+                data: { id: uid, status: req_status, utype: 'purchase' },
+                success: function (response) {
+                    alert(response);
+                    location.reload();
+
+                }
+
+            });
+        });
+
+        function date_update(del_date) {
+            var delivery_date = del_date;
+            var req_id = $("#req_id").val();
+            $.ajax({
+                url: "/update_delivery_date",
+                type: "GET",
+                data: { id: req_id, del_date: delivery_date },
+                success: function (response) {
+                    alert(response);
+                    location.reload();
+
+                }
+
+            });
+        };
+
+        function preview(name) {
+            $("#mod_img").attr('src', '../media/' + name);
+            $("#prev").modal();
+        }
+
+        function del_update(req_id) {
+            $("#req_id").val(req_id);
+            $("#del_update").modal();
+        }
+
+        function upload_inv(req_id) {
+            $("#inv_" + req_id).click();
+        }
+
+        function form_submit(req_id) {
+            var inv_name = $("#inv_" + req_id).val().replace(/C:\\fakepath\\/i, '');
+            $("#upload_form_" + req_id).submit();
+        }
+
+    </script>
+</body>
+<div class="modal fade" id="prev" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:900px;margin-left:-150px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center"><b>Preview</b></h4>
+            </div>
+            <div class="modal-body">
+                <img src="" id="mod_img" width="100%">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="del_update" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:300px;margin-left:110px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center"><b>Update delivery date</b></h4>
+            </div>
+            <div class="modal-body">
+                <input type="date" class="form-control" onchange="date_update(this.value)" style="width:100%"
+                    id="del_date">
+                <input type="hidden" id="req_id" value="">
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
