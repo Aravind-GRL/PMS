@@ -1,0 +1,70 @@
+
+CREATE TABLE purchase_manager (
+    purchase_manager_id INTEGER       PRIMARY KEY,
+    name                VARCHAR (200) NOT NULL
+);
+
+
+CREATE TABLE project_manager (
+    project_manager_id INTEGER       PRIMARY KEY
+                                     NOT NULL,
+    name               VARCHAR (200) NOT NULL
+);
+
+
+CREATE TABLE purchase_request (
+    req_id           INTEGER       PRIMARY KEY
+                                   NOT NULL,
+    emp_name         VARCHAR (200) NOT NULL,
+    team             VARCHAR (200) NOT NULL,
+    req_product      VARCHAR (200) NOT NULL,
+    purpose          VARCHAR (200) NOT NULL,
+    product_link     TEXT,
+    price            VARCHAR (200) NOT NULL,
+    project_manager  VARCHAR (200) NOT NULL,
+    purchase_manager VARCHAR (200) NOT NULL,
+    status           VARCHAR (200) NOT NULL,
+    request_date     DATETIME,
+    approved_date    DATETIME,
+    purchase_date    DATETIME,
+    delivery_date    DATETIME,
+    image            TEXT,
+    invoice          VARCHAR (200) 
+);
+
+
+CREATE TABLE user_info (
+    uid        INTEGER       PRIMARY KEY
+                             NOT NULL,
+    uname      VARCHAR (200),
+    password   VARCHAR (200),
+    name       VARCHAR (200),
+    team       VARCHAR (100),
+    user_type  VARCHAR (200),
+    created_on DATETIME,
+    email      VARCHAR (100) 
+);
+
+
+CREATE TABLE user_type (
+    user_type_id INTEGER       NOT NULL
+                               PRIMARY KEY AUTOINCREMENT,
+    user_type    VARCHAR (100) NOT NULL
+);
+
+
+
+INSERT INTO user_type (user_type_id, user_type) VALUES (1, 'Employee');
+INSERT INTO user_type (user_type_id, user_type) VALUES (2, 'Project Manager');
+INSERT INTO user_type (user_type_id, user_type) VALUES (3, 'Purchase Manager');
+
+
+INSERT INTO user_info (uid, uname, password, name, team, user_type, created_on, email) VALUES (1, 'admin', '12345', 'Jack', 'Testing', '3', '2022-01-07 00:00:00', 'abc@gmail.com');
+INSERT INTO user_info (uid, uname, password, name, team, user_type, created_on, email) VALUES (3, 'user', '12345', 'Dominic', 'Software', '2', '2022-01-07 00:00:00', 'lkj@gmail.com');
+INSERT INTO user_info (uid, uname, password, name, team, user_type, created_on, email) VALUES (4, 'employee', '12345', 'Richard', 'Software', '1', '2022-01-07 00:00:00', 'abc@gmail.com');
+
+
+INSERT INTO purchase_manager (purchase_manager_id, name) VALUES (0, 'Not Assigned');
+INSERT INTO purchase_manager (purchase_manager_id, name) VALUES (3, 'Jack');
+
+INSERT INTO project_manager (project_manager_id, name) VALUES (12, 'Dominic');
