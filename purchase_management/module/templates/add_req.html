@@ -20,8 +20,10 @@
         <h1><i class="fa fa-shopping-cart"></i>&nbsp;<b>Purchase Management System</b></h1>
     </div>
     <br>
-    <br>
     <h3 style="text-align:center"><b>Add Request</b></h3><br>
+    <div class="text-left" style="margin-left:20px;margin-top:-30px">
+        <a href="/index"><u>Back to home page</u></a>
+    </div>
     <div class="col-md-10 col-md-offset-2 text-center">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -62,12 +64,21 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-6">
-                <input style="margin-right:-900px" type="submit" name="submit" value="Add"
+            <div class="col-md-6" style="margin-left:480px">
+                <input type="submit" name="submit" value="Add"
                     class="col-md-3 btn btn-primary">
+                <input type="button" id="cancel_btn" value="Cancel"
+                    class="col-md-3 btn btn-warning">
             </div>
         </form>
     </div>
 </body>
 
+<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+
+<script type="text/javascript">
+    $("#cancel_btn").click(function(){
+        location.reload();
+    })
+</script>
 </html>

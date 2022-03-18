@@ -2,7 +2,12 @@
 <html lang="en">
 
 <head>
-
+<style>
+    #upload_info{
+        margin-top:-50px;
+        margin-right: -80px; 
+    }
+</style>
     <meta charset="UTF-8">
     {% load static %}
     <title>Registration</title>
@@ -20,8 +25,21 @@
         <h1><i class="fa fa-shopping-cart"></i>&nbsp;<b>Purchase Management System</b></h1>
     </div>
     <br>
-    <br>
-    <h3 style="text-align:center"><b>Registration</b></h3><br>
+    
+    <h3 style="text-align:center"><b>Registration</b></h3>
+    <div class="text-left" style="margin-left:20px">
+        <a href="/pu_index"><u>Back to home page</u></a>
+    </div>
+    <div class="text-right" style="margin-right:140px;margin-top:-35px">
+        <details><summary style="margin-right:-100px; color:darkred">To upload multiple users at on shot</summary><br>
+        <a href="{% static 'Excel/PMS_template.xlsx' %}" download style="margin-right:60px"><u>Template &nbsp;<i class="fa fa-download"></i></u></a>  
+        <form method="post" id="upload_form" action="/upload_user" enctype="multipart/form-data">
+            {% csrf_token %}
+        <input type="button" id="upload_info" class="btn btn-primary" value="Upload excel" onclick="upload_user()">
+        <input type="file" name="user_info" id="usr_info" onchange="form_submit()" style="display:none">
+        </form>   
+        </details>
+    </div><br>
     <div class="col-md-10 col-md-offset-2 text-center">
         <form action="" method="POST" id="reg_form">
             {% csrf_token %}
@@ -59,10 +77,13 @@
                 <input type="password" id="cpwd" class="col-md-4" name="cpwd" required>
             </div>
            
-            <div class="col-md-6">
-                <input style="margin-right:-900px" type="submit" id="reg_btn" name="submit" value="Register"
+            <div class="col-md-6"  style="margin-left:450px" >
+                <input  type="submit" id="reg_btn" name="submit" value="Register"
                     class="col-md-3 btn btn-primary">
-            </div>
+
+                <input  type="submit" id="cancel_btn" name="submit" value="Cancel"
+                    class="col-md-3 btn btn-warning">
+                </div>
         </form>
     </div>
 
@@ -83,6 +104,19 @@
             return false;
         }
     });
+
+    $("#cancel_btn").click(function(){
+        location.reload();
+    });
+
+    function upload_user() {
+            $("#usr_info").click();
+        }
+
+        function form_submit() {
+            // var exl_name = $("#inv_" + req_id).val().replace(/C:\\fakepath\\/i, '');
+            $("#upload_form").submit();
+        }
 </script>   
 
 </body>
