@@ -91,13 +91,13 @@ def add(request):
         purpose = request.POST['purpose']
         link = request.POST['link']
         price = request.POST['price']
-        mgr = request.POST['mgr']
+        # mgr = request.POST['mgr']
         img = request.FILES['pro_file']
         fss = FileSystemStorage()
         file = fss.save(img.name, img)
         file_url = fss.url(file)
         insert = purchase_request.objects.create(emp_name=name,team=team,req_product=req_pro,purpose=purpose,product_link=link,
-        price=price,project_manager=str(mgr),purchase_manager='Not Assigned',status='Pending for Approval',request_date=date.today(),image=img)
+        price=price,purchase_manager='Not Assigned',status='Pending for Approval',request_date=date.today(),image=img)
         messages.success(request,'Request added successfully')
         return redirect('/index')
     else:
