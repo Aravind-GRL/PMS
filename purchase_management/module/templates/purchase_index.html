@@ -46,7 +46,7 @@
     <div class="alert alert-info alert-dismissible text-center" role="alert" id="flash">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="remove_flash();"><span
                 aria-hidden="true">&times;</span></button>
-                
+
         <b>{{ message }}</b>
     </div>
     {% endfor %}
@@ -55,7 +55,7 @@
     <h3 style="text-align:center"><b>Purchase Requests</b></h3>
     <div class="text-right" style="margin-right:30px;margin-top:-35px">
         <a href="/registration"><button type="button" class="btn btn-success">Add Users</button></a>
-        <a href="/user_list"><button type="button" class="btn btn-success">List Users</button></a>    
+        <a href="/user_list"><button type="button" class="btn btn-success">List Users</button></a>
     </div>
 
     <div class="form-group" style="padding:12px;overflow-x: scroll;">
@@ -183,7 +183,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css" />
-        <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" />
 
     <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
     <script type="text/javascript" language="javascript"
@@ -204,9 +204,9 @@
             $('#pur_req').dataTable({
                 dom: 'lBfrtip',
                 buttons: [
-               'print','excel'
-                
-        ]
+                    'print', 'excel'
+
+                ]
             });
         });
         $(".pr_action").change(function () {

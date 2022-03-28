@@ -14,7 +14,10 @@
         margin-right: 20px;
 
     }
-    
+    a.disabled {
+          cursor: not-allowed !important;
+          opacity: .2;
+        }
 </style>
 
 <head>
@@ -76,6 +79,7 @@
                     <th>Purchased Date</th>
                     <th>Delivery Date</th>
                     <th>Product Image</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -118,10 +122,16 @@
                     <td>{{ req.delivery_date|date:"Y-m-d" }}</td>
                     {% endif %}
                     <td>
-                        <a href="javascript:void(0);" data-toggle="tooltip" id="{{ req.name }}" onclick="preview('{{ req.image }}')"  title="Click to Preview">
-                        <img src="../media/{{ req.image }}" alt="img" width="65px" height="40px"></a>
-                        
+                        <a href="javascript:void(0);" data-toggle="tooltip" id="{{ req.name }}"
+                            onclick="preview('{{ req.image }}')" title="Click to Preview">
+                            <img src="../media/{{ req.image }}" alt="img" width="65px" height="40px"></a>
+
                     </td>
+                    {% if 'Pending for Approval' in req.status %}
+                    <td><a href="javascript:void(0)" onclick="del_req('{{req.req_id}}')" data-toggle="tooltip" title="delete" style="border:solid 2px;border-color:mediumvioletred"><i class="fa fa-remove" style="color:mediumvioletred"></i></a></td>
+                    {% else %}
+                    <td><a href="javascript:void(0)"  data-toggle="tooltip" class="disabled" title="This request is under some process"  style="border:solid 2px;border-color:mediumvioletred;"><i class="fa fa-remove" style="color:mediumvioletred"></i></a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
@@ -129,17 +139,24 @@
     </div>
     <br>
     <br>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css" />
-	
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css" />
+
     <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
-	<script type="text/javascript" language="javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
-   
+    <script type="text/javascript" language="javascript"
+        src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#pur_req').DataTable({
@@ -149,10 +166,27 @@
         function remove_flash() {
             $("#flash").remove();
         }
-        function preview(name)
-        {
-            $("#mod_img").attr('src','../media/'+name);
+        function preview(name) {
+            $("#mod_img").attr('src', '../media/' + name);
             $("#prev").modal();
+        }
+        function del_req(req_id){
+            if(confirm('Are you sure?')==true)
+            {
+                $.ajax({
+                    url:'/delete_req',
+                    type:'GET',
+                    data: {id:req_id},
+                    success:function(response){
+                        alert(response);
+                        location.reload();
+                    }
+                });
+            }
+            else
+            {
+                return true;
+            }
         }
     </script>
 </body>
@@ -165,13 +199,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:900px;margin-left:-150px">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-center"><b>Preview</b></h4>
             </div>
             <div class="modal-body">
                 <img src="" id="mod_img" width="100%">
             </div>
-        </div> 
+        </div>
     </div>
-</div>               
+</div>
+
 </html>

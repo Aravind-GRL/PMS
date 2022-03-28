@@ -58,7 +58,7 @@
                 <label class="col-md-3 control-label text-right"><b>Confirm Password</b></label>
                 <input type="password" id="cpwd" class="col-md-4" name="cpwd" required>
             </div> -->
-           
+
             <div class="col-md-6">
                 <input style="margin-right:-900px" type="submit" id="reg_btn" name="submit" value="Register"
                     class="col-md-3 btn btn-primary">
@@ -68,22 +68,21 @@
 
     <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $("#reg_btn").click(function(){
-        var pwd = $("#pwd").val();
-        var cpwd = $("#cpwd").val();
-        if(pwd == cpwd)
-        {
-            return true;
-        }
-        else
-        {
-            alert('Password not match');
-            return false;
-        }
-    });
-</script>   
+        $("#reg_btn").click(function () {
+            var pwd = $("#pwd").val();
+            var cpwd = $("#cpwd").val();
+            if (pwd == cpwd) {
+                return true;
+            }
+            else {
+                alert('Password not match');
+                return false;
+            }
+        });
+    </script>
 
 </body>
+
 </html>

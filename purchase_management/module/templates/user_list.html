@@ -40,6 +40,7 @@
         </div>
     </div>
     <br><br>
+    <!-- Flash message -->
     {% if messages %}
     {% for message in messages %}
     <br><br>
@@ -79,8 +80,10 @@
                     <td>{{ user.uname }}</td>
                     <td>******</td>
                     <td>
-                        <a href="/edit_users/{{ user.uid }}"><button type="button" class="btn btn-info" ><i class="fa fa-pencil"></i></button></a>
-                        <a href="javascript:void()"><button type="button" class="btn btn-danger" onclick="del_confirm(' {{ user.uid }} ')"><i class="fa fa-trash"></i></button></a>
+                        <a href="/edit_users/{{ user.uid }}"><button type="button" class="btn btn-info"><i
+                                    class="fa fa-pencil"></i></button></a>
+                        <a href="javascript:void()"><button type="button" class="btn btn-danger"
+                                onclick="del_confirm(' {{ user.uid }} ')"><i class="fa fa-trash"></i></button></a>
                     </td>
 
                 </tr>
@@ -113,39 +116,33 @@
             $('#pur_req').dataTable();
         });
 
-        function del_confirm(id)
-        {
+        function del_confirm(id) {
             $("#mod_uid").val(id);
             $("#del").modal();
         }
 
-        function del_user(user_action)
-        {
-            if(user_action == 'yes')
-            {
+        function del_user(user_action) {
+            if (user_action == 'yes') {
                 uid = $("#mod_uid").val();
                 $.ajax({
-                  url: "/delete_users",
-                  type: "GET",
-                  data: {id:uid},
-                  success: function(response){
-                      location.reload();
-                  } 
-                }); 
+                    url: "/delete_users",
+                    type: "GET",
+                    data: { id: uid },
+                    success: function (response) {
+                        location.reload();
+                    }
+                });
             }
-            else
-            {
+            else {
                 return true;
-            }      
-            
+            }
+
         }
         function remove_flash() {
-        $("#flash").remove();
-    }
+            $("#flash").remove();
+        }
     </script>
 </body>
-<!-- preview pop up -->
-
 
 <!-- delete pop up -->
 <div class="modal fade" id="del" tabindex="-1" role="dialog">
@@ -158,8 +155,10 @@
                 <h3 class="text-center">Are you sure?</h3>
                 <div class="text-center">
                     <input type="hidden" name="uid" id="mod_uid" value="">
-                    <button type="button" class="btn btn-success" onclick="del_user('yes')">Yes</button>&nbsp;|&nbsp;<button type="button" class="btn btn-danger" onclick="del_user('no')">No</button>
-                </div>    
+                    <button type="button" class="btn btn-success"
+                        onclick="del_user('yes')">Yes</button>&nbsp;|&nbsp;<button type="button" class="btn btn-danger"
+                        onclick="del_user('no')">No</button>
+                </div>
             </div>
             <div class="modal-body">
                 <img src="" id="mod_img" width="100%">
