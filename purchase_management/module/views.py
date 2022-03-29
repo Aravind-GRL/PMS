@@ -44,15 +44,40 @@ def logout(request):
     return redirect("/")
 
 
+def reset_password(request):
+    if request.method=="POST":
+        name=request.POST.get('uname')
+        pwd=request.POST.get('pwd')
+        update_pwd = user_info.objects.filter(uname=name).update(password=pwd)
+        messages.success(request, 'Password has been updated')
+        return redirect("/")
+
+        
+def uname_check(request):
+    name = request.GET.get('name')
+    if user_info.objects.filter(uname=name).exists():
+        return HttpResponse('true') 
+    else:
+        return HttpResponse('false')
+
 def user_list(request):
     users = user_info.objects.values()
     return render(request, 'user_list.html', {'user_list': users})
 
 
 def edit_users(request, id):
-    user_details = user_info.objects.get(uid=id)
-    utype = user_type.objects.all()
-    return render(request, 'edit_users.html', {'user': user_details, 'utype': utype})
+    if request.method == 'POST':
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        team=request.POST.get('team')
+        usr_type=request.POST.get('utype')
+        update_users = user_info.objects.filter(uid=id).update(name=name,email=email,team=team,user_type=usr_type)
+        messages.success(request,'User details has been updated')
+        return redirect("/user_list")
+    else:
+        user_details = user_info.objects.get(uid=id)
+        utype = user_type.objects.all()
+        return render(request, 'edit_users.html', {'user': user_details, 'utype': utype})
 
 
 def delete_users(request):

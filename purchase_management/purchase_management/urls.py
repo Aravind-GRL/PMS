@@ -36,5 +36,7 @@ urlpatterns = [
     path('',views.login),
     path('logout',views.logout),
     path('registration',views.registration),
-    path('delete_req',views.delete_req)
+    path('delete_req',views.delete_req),
+    path('reset_pwd',views.reset_password),
+    path('uname_check',views.uname_check)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
