@@ -57,7 +57,7 @@ input[type=password]{
     font-weight: bold;
     outline: 0;
     padding-left: 0px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     color: #ECF0F5;
 }
 

@@ -61,7 +61,9 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">PASSWORD</label>
-                                <input type="password" class="form-control" name="pwd" id="parent_pwd" required>
+                                <input type="password" class="form-control" name="pwd" id="parent_pwd" required><br>
+                                <input type="checkbox" onclick="show_pwd()" id="show" style="margin-top:-50px;">&nbsp;&nbsp;<span style="color:white">Show Password</span>
+
                             </div>
                             <a href="javascript:void()" onclick="fgt_pwd(event)" class="fgt-pwd">Forgot password?</a>
 
@@ -141,6 +143,18 @@
                     }
                 });
             }
+            function show_pwd()
+            {
+            var show = $("#show").prop('checked');
+            if(show==true)
+            {
+                $("#parent_pwd").attr('type','text');
+            }
+            else
+            {
+                $("#parent_pwd").attr('type','password');
+            }
+        }
         </script>
 </body>
 
