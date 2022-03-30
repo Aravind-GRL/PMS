@@ -52,7 +52,7 @@ def reset_password(request):
         messages.success(request, 'Password has been updated')
         return redirect("/")
 
-        
+
 def uname_check(request):
     name = request.GET.get('name')
     if user_info.objects.filter(uname=name).exists():
@@ -66,12 +66,25 @@ def user_list(request):
 
 
 def edit_users(request, id):
+    check_utype = user_info.objects.filter(uid=id).values('user_type','name')
+    existing_utype = list(check_utype)[0]['user_type']
+    existing_name = list(check_utype)[0]['name']
     if request.method == 'POST':
         name=request.POST.get('name')
         email=request.POST.get('email')
         team=request.POST.get('team')
         usr_type=request.POST.get('utype')
         update_users = user_info.objects.filter(uid=id).update(name=name,email=email,team=team,user_type=usr_type)
+        if usr_type != existing_utype:
+            if '2' in existing_utype:
+                delete_user = project.objects.filter(name=existing_name).delete()
+            elif '3' in existing_utype:
+                delete_user = purchase.objects.filter(name=existing_name).delete()
+            if '2' in usr_type:
+                insert_user = project.objects.create(name=name)
+            elif '3' in usr_type:
+                insert_user = purchase.objects.create(name=name)
+
         messages.success(request,'User details has been updated')
         return redirect("/user_list")
     else:
