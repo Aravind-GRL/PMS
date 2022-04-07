@@ -22,6 +22,9 @@
     <br>
     <br>
     <h3 style="text-align:center"><b>Update User</b></h3><br>
+    <!-- <div class="text-left" style="margin-left:20px;margin-top:-50px">
+        <a href="/user_list"><u>Back</u></a>
+    </div> -->
     <div class="col-md-10 col-md-offset-2 text-center">
         <form action="/edit_users/{{ user.uid }}" method="POST" id="reg_form">
             {% csrf_token %}
@@ -60,7 +63,7 @@
             </div> -->
 
             <div class="col-md-6">
-                <input style="margin-right:-900px" type="submit" id="reg_btn" name="submit" value="Update"
+                <input style="margin-right:-158%" type="submit" id="reg_btn" name="submit" value="Update"
                     class="col-md-3 btn btn-primary">
             </div>
         </form>
