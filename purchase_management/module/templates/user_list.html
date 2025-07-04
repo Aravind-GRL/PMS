@@ -78,7 +78,7 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.user_type }}</td>
                     <td>{{ user.uname }}</td>
-                    <td>******</td>
+                    <td id="{{user.uname}}">****<input style="float: right;" type="checkbox" class="pwd_check" onclick="pwd_show( '{{user.password}}','{{user.uname}}')"></td>
                     <td>
                         <a href="/edit_users/{{ user.uid }}"><button type="button" class="btn btn-info"><i
                                     class="fa fa-pencil"></i></button></a>
@@ -112,6 +112,7 @@
 
 
     <script type="text/javascript">
+        var pwd, uname;
         $(document).ready(function () {
             $('#pur_req').dataTable();
         });
@@ -141,6 +142,14 @@
         function remove_flash() {
             $("#flash").remove();
         }
+        function pwd_show(pwd,uname){
+            alert(typeof pwd, typeof uname);
+            $("#"+uname).html(pwd +"<input style='float: right;' checked type='checkbox' class='pwd_check' onclick='pwd_hide({{ pwd }},{{ uname }})'>");
+        }
+        function pwd_hide(pwd,uname){
+            $("#"+uname).html("<input style='float: right;' type='checkbox' class='pwd_check' onclick='pwd_show("+pwd+","+uname+")'>");
+        } 
+        
     </script>
 </body>
 
