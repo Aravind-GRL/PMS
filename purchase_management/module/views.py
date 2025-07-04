@@ -25,6 +25,7 @@ def login(request):
             request.session['uname'] = name
             request.session['email'] = user_email
             request.session['is_login'] = True
+            print(request)
             if user_type == '1':
                 return redirect("/index")
             elif user_type == '2':
